@@ -4,20 +4,26 @@ const chatRoot = document.getElementById('chat-root');
 
 // State
 let state = {
-    currentPage: 'home', // home, services, booking, profile
+    currentPage: 'home',
     params: {},
-    user: null, // mock authentication
+    user: null,
+
     searchQuery: '',
     selectedCategory: 'All',
+
     isChatOpen: false,
     chatMessages: [
-        { sender: 'bot', text: 'Hi there! I\'m your AI assistant. How can I help you find a service today?' }
+        { sender: 'bot', text: "Hi there! I'm your AI assistant. How can I help you today?" }
     ],
+
     showLoginModal: false,
     showRegisterModal: false,
-    loginStep: 'input', // 'input' or 'otp'
-    loginStep: 'input', // 'input' or 'otp'
+
+    loginStep: 'input',
     tempLoginData: null,
+
+    generatedOTP: null,   // ✅ Added OTP storage
+
     currentBooking: null
 };
 
@@ -54,7 +60,6 @@ const routes = {
     home: renderHome,
     services: renderServices,
     booking: renderBooking,
-    booking: renderBooking,
     confirmation: renderConfirmation,
     profile: renderProfile
 };
@@ -74,6 +79,21 @@ function navigate(page, params = {}) {
 function renderApp() {
     app.innerHTML = routes[state.currentPage]() + renderFooter() + renderAuthModals();
     // Re-attach event listeners if needed (not needed for inline onclicks)
+}
+
+// ===============================
+// EMAIL OTP CONFIG (REAL)
+// ===============================
+
+const EMAILJS_SERVICE_ID = "service_1udxn5c";
+const EMAILJS_TEMPLATE_ID = "template_t37g3gu";
+
+// Send OTP Email Function
+function sendOTPEmail(toEmail, otpCode) {
+    return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        to_email: toEmail,
+        otp: otpCode
+    });
 }
 
 function renderChat() {
@@ -742,6 +762,10 @@ function closeAuthModals() {
     state.showLoginModal = false;
     state.showRegisterModal = false;
     state.loginStep = 'input';
+
+    state.generatedOTP = null;
+    state.tempLoginData = null;
+
     renderApp();
 }
 
@@ -753,42 +777,71 @@ function openRegister() {
 
 function handleLogin(e) {
     e.preventDefault();
-    const identifier = e.target.identifier.value;
 
-    // For demo purposes, allow ANY identifier to proceed
+    const identifier = e.target.identifier.value.trim();
+
+    // Check if email
+    if (!identifier.includes("@")) {
+        alert("Only Email OTP supported right now. Please enter an email.");
+        return;
+    }
+
+    // Generate OTP
+    const otpCode = Math.floor(1000 + Math.random() * 9000);
+
+    // Save OTP + Identifier
+    state.generatedOTP = otpCode;
     state.tempLoginData = identifier;
-    state.loginStep = 'otp';
-    alert(`OTP sent to ${identifier} (Simulated: Use ANY 4 digits)`);
-    renderApp();
+    state.loginStep = "otp";
+
+    // Send OTP Email
+    sendOTPEmail(identifier, otpCode)
+        .then(() => {
+            alert("OTP sent successfully to your email!");
+            renderApp();
+        })
+        .catch((err) => {
+            console.error("Email Error:", err);
+            alert("Failed to send OTP email. Check EmailJS setup.");
+        });
 }
 
 function handleVerifyOTP(e) {
     e.preventDefault();
-    const otp = e.target.otp.value;
 
-    if (otp.length === 4) {
-        // Find user or create new one
-        const identifier = state.tempLoginData;
-        let user = users.find(u => u.email === identifier || u.mobile === identifier);
+    const otp = e.target.otp.value.trim();
 
-        if (!user) {
-            // Create user on the fly
-            user = {
-                id: users.length + 1,
-                name: identifier.includes('@') ? identifier.split('@')[0] : `User ${identifier.slice(-4)} `,
-                email: identifier.includes('@') ? identifier : `user${Date.now()} @example.com`,
-                mobile: !identifier.includes('@') ? identifier : '',
-                role: 'user'
-            };
-            users.push(user);
-        }
-
-        state.user = user;
-        closeAuthModals();
-        alert(`Welcome, ${user.name} !`);
-    } else {
-        alert('Invalid OTP. Please enter 4 digits.');
+    // Validate OTP
+    if (parseInt(otp) !== state.generatedOTP) {
+        alert("Wrong OTP! Please try again.");
+        return;
     }
+
+    // OTP Verified ✅
+    const identifier = state.tempLoginData;
+
+    let user = users.find(u => u.email === identifier);
+
+    // Create new user if not exists
+    if (!user) {
+        user = {
+            id: users.length + 1,
+            name: identifier.split("@")[0],
+            email: identifier,
+            role: "user"
+        };
+        users.push(user);
+    }
+
+    state.user = user;
+
+    // Reset OTP state
+    state.generatedOTP = null;
+    state.tempLoginData = null;
+
+    closeAuthModals();
+
+    alert(`Welcome, ${user.name}!`);
 }
 
 function handleRegister(e) {

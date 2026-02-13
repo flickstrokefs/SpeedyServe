@@ -12,6 +12,7 @@
     /* Gray-600 */
     --accent-color: #10B981;
     /* Emerald-500 */
+    --accent-glow: rgba(16, 185, 129, 0.4);
     --danger-color: #EF4444;
     /* Red-500 */
     --bg-color: #FFFFFF;
@@ -126,6 +127,11 @@ img {
     padding: 1rem;
 }
 
+.text-accent {
+    color: var(--accent-color);
+}
+
+
 /* Components */
 .btn {
     display: inline-flex;
@@ -176,8 +182,8 @@ img {
 
 /* Layout Specifics */
 header {
-    background: white;
-    border-bottom: 1px solid var(--border-color);
+    background: black;
+    border-bottom: 1px solid #333;
     padding: 1rem 0;
     position: sticky;
     top: 0;
@@ -187,15 +193,15 @@ header {
 
 .nav-link {
     font-weight: 500;
-    color: var(--text-secondary);
+    color: #e5e7eb;
     padding: 0.5rem 1rem;
     border-radius: var(--radius-md);
 }
 
 .nav-link:hover,
 .nav-link.active {
-    color: var(--primary-color);
-    background-color: rgba(37, 99, 235, 0.05);
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Hero Section */
@@ -518,4 +524,53 @@ header {
     color: white;
     border-radius: var(--radius-md);
     font-weight: 500;
+}
+
+/* Marquee Styles */
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    background: black;
+    color: white;
+    padding: 1rem 0;
+    white-space: nowrap;
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.marquee-content {
+    display: inline-block;
+    animation: marquee 30s linear infinite;
+}
+
+.marquee-item {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 4rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.marquee-item i {
+    color: var(--primary-color);
+    margin-right: 0.75rem;
+    font-size: 1.25rem;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Pause on hover for better UX */
+.marquee-container:hover .marquee-content {
+    animation-play-state: paused;
 }
