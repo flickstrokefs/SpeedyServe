@@ -24,7 +24,10 @@ let state = {
 
     generatedOTP: null,   // ✅ Added OTP storage
 
-    currentBooking: null
+    generatedOTP: null,   // ✅ Added OTP storage
+
+    currentBooking: null,
+    isEditingProfile: false
 };
 
 // Routing
@@ -35,7 +38,8 @@ const users = [
         email: "admin@speedyserve.com",
         mobile: "9999999999",
         password: "admin123", // In a real app, this would be hashed
-        role: "admin"
+        role: "admin",
+        bookings: []
     },
     {
         id: 2,
@@ -43,7 +47,8 @@ const users = [
         email: "john@example.com",
         mobile: "9876543210",
         password: "password123",
-        role: "user"
+        role: "user",
+        bookings: []
     },
     {
         id: 3,
@@ -51,7 +56,8 @@ const users = [
         email: "jane@provider.com",
         mobile: "9123456780",
         password: "service123",
-        role: "provider"
+        role: "provider",
+        bookings: []
     }
 ];
 
@@ -146,8 +152,8 @@ function renderHeader() {
         <header>
             <div class="container flex justify-between items-center">
                 <a href="#" onclick="navigate('home'); return false;" class="flex items-center gap-2" style="text-decoration: none;">
-                    <i class="fa-solid fa-bolt" style="font-size: 1.5rem; color: var(--primary-color);"></i>
-                    <span style="font-weight: 800; font-size: 1.5rem; letter-spacing: -0.025em; color: var(--text-primary);">Speedy<span style="color: var(--primary-color);">Serve</span></span>
+                    <i class="fa-solid fa-paper-plane" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                    <span style="font-weight: 800; font-size: 1.5rem; letter-spacing: -0.025em; color: white;">Speedy<span style="color: var(--primary-color);">Serve</span></span>
                 </a>
                 <nav class="flex gap-4 items-center">
                     <a href="#" onclick="navigate('home'); return false;" class="nav-link ${state.currentPage === 'home' ? 'active' : ''}">Home</a>
@@ -176,7 +182,7 @@ function renderFooter() {
                     <!-- Brand Section -->
                     <div>
                         <div class="flex items-center gap-2 mb-4" style="color: white;">
-                            <i class="fa-solid fa-bolt" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                            <i class="fa-solid fa-paper-plane" style="font-size: 1.5rem; color: var(--primary-color);"></i>
                             <span style="font-weight: 800; font-size: 1.5rem; letter-spacing: -0.025em;">Speedy<span style="color: var(--primary-color);">Serve</span></span>
                         </div>
                         <p style="color: #9CA3AF; line-height: 1.6; margin-bottom: 1.5rem;">
@@ -210,9 +216,9 @@ function renderFooter() {
                                 </a>
                             </li>
                             <li>
-                                <a href="mailto:gokulchawla0905@gmail.com" style="display: flex; gap: 1rem; align-items: center; color: #D1D5DB; transition: 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#D1D5DB'">
+                                <a href="mailto:speedyserve777@gmail.com" style="display: flex; gap: 1rem; align-items: center; color: #D1D5DB; transition: 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#D1D5DB'">
                                     <i class="fa-solid fa-envelope" style="color: var(--primary-color);"></i>
-                                    <span>gokulchawla0905@gmail.com</span>
+                                    <span>speedyserve777@gmail.com</span>
                                 </a>
                             </li>
                             <li>
@@ -352,7 +358,7 @@ function renderHome() {
     <main>
         <section class="hero">
             <div class="container">
-                <h1 class="animate-fade-in">Expert Services, <br><span style="color: var(--primary-color);">Deeply Trusted.</span></h1>
+                <h1 class="animate-fade-in">Instant Services, <br><span style="color: var(--primary-color);">Deeply Trusted.</span></h1>
                 <p class="animate-fade-in" style="animation-delay: 0.1s;">Book trusted professionals for cleaning, plumbing, electrical work, and more with just a few clicks.</p>
                 <div class="flex gap-2 justify-center mt-4 animate-fade-in" style="animation-delay: 0.2s;">
                     <input type="text" placeholder="What service do you need?" class="input-field" style="max-width: 400px; box-shadow: var(--shadow-md);" onchange="handleSearch(this.value)">
@@ -365,6 +371,26 @@ function renderHome() {
                 </div>
             </div>
         </section>
+
+
+
+        <!-- Marquee Section -->
+        <div class="marquee-container">
+            <div class="marquee-content">
+                <span class="marquee-item"><i class="fa-solid fa-bolt"></i> Lightning Fast Service</span>
+                <span class="marquee-item"><i class="fa-solid fa-shield-halved"></i> 100% Secure & Verified Professionals</span>
+                <span class="marquee-item"><i class="fa-solid fa-star"></i> Top Rated Experts</span>
+                <span class="marquee-item"><i class="fa-solid fa-tags"></i> Transparent Pricing</span>
+                <span class="marquee-item"><i class="fa-solid fa-headset"></i> 24/7 Customer Support</span>
+                <span class="marquee-item"><i class="fa-solid fa-medal"></i> Premium Quality Guaranteed</span>
+                 <span class="marquee-item"><i class="fa-solid fa-bolt"></i> Lightning Fast Service</span>
+                <span class="marquee-item"><i class="fa-solid fa-shield-halved"></i> 100% Secure & Verified Professionals</span>
+                <span class="marquee-item"><i class="fa-solid fa-star"></i> Top Rated Experts</span>
+                <span class="marquee-item"><i class="fa-solid fa-tags"></i> Transparent Pricing</span>
+                <span class="marquee-item"><i class="fa-solid fa-headset"></i> 24/7 Customer Support</span>
+                <span class="marquee-item"><i class="fa-solid fa-medal"></i> Premium Quality Guaranteed</span>
+            </div>
+        </div>
 
         <!-- Category Section -->
         <section class="container category-section animate-fade-in" style="animation-delay: 0.4s;">
@@ -397,25 +423,88 @@ function renderHome() {
             </div>
         </section>
 
-        <section style="background: var(--primary-color); color: white; padding: 4rem 1rem; margin-top: 2rem; border-radius: var(--radius-lg); margin-bottom: 4rem;">
+        <section style="background: black; color: white; padding: 4rem 1rem; margin-top: 2rem; border-radius: var(--radius-lg); margin-bottom: 4rem;">
             <div class="container text-center">
                 <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem;">Why Choose SpeedyServe?</h2>
                 <div class="flex flex-wrap justify-center gap-8 mt-8">
-                    <div style="flex: 1; min-width: 250px; background: rgba(255,255,255,0.1); padding: 2rem; border-radius: var(--radius-lg); backdrop-filter: blur(5px);">
-                        <i class="fa-solid fa-user-shield" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
+                    <div style="flex: 1; min-width: 250px; background: white; color: var(--text-primary); padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                        <i class="fa-solid fa-user-shield" style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary-color);"></i>
                         <h3 style="font-size: 1.25rem; font-weight: 600;">Secure & Safe</h3>
-                        <p style="opacity: 0.9;">Background checked professionals for your peace of mind.</p>
+                        <p style="color: var(--text-secondary);">Background checked professionals for your peace of mind.</p>
                     </div>
-                    <div style="flex: 1; min-width: 250px; background: rgba(255,255,255,0.1); padding: 2rem; border-radius: var(--radius-lg); backdrop-filter: blur(5px);">
-                        <i class="fa-solid fa-bolt" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
+                    <div style="flex: 1; min-width: 250px; background: white; color: var(--text-primary); padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                        <i class="fa-solid fa-bolt" style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary-color);"></i>
                         <h3 style="font-size: 1.25rem; font-weight: 600;">Fast Booking</h3>
-                        <p style="opacity: 0.9;">Book a service in less than 60 seconds with our smart AI.</p>
+                        <p style="color: var(--text-secondary);">Book a service in less than 60 seconds with our smart AI.</p>
                     </div>
-                    <div style="flex: 1; min-width: 250px; background: rgba(255,255,255,0.1); padding: 2rem; border-radius: var(--radius-lg); backdrop-filter: blur(5px);">
-                        <i class="fa-solid fa-headset" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
+                    <div style="flex: 1; min-width: 250px; background: white; color: var(--text-primary); padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                        <i class="fa-solid fa-headset" style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary-color);"></i>
                         <h3 style="font-size: 1.25rem; font-weight: 600;">24/7 Support</h3>
-                        <p style="opacity: 0.9;">Our support team is always available to assist you.</p>
+                        <p style="color: var(--text-secondary);">Our support team is always available to assist you.</p>
                     </div>
+                    <div style="flex: 1; min-width: 250px; background: white; color: var(--text-primary); padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                        <i class="fa-solid fa-users" style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary-color);"></i>
+                        <h3 style="font-size: 1.25rem; font-weight: 600;">20,000+ Customers</h3>
+                        <p style="color: var(--text-secondary);">Serving a massive community of happy customers across the city.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section class="container animate-fade-in" style="padding: 4rem 1rem; margin-bottom: 4rem;">
+            <div class="text-center mb-12">
+                <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">What Our Users Say</h2>
+                <p style="color: var(--text-secondary);">Real stories from satisfied customers</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <!-- Review 1 -->
+                <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-md);">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div style="width: 50px; height: 50px; background: #e0f2fe; color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.25rem;">
+                            J
+                        </div>
+                        <div>
+                            <h4 style="font-weight: 600;">Jessica M.</h4>
+                            <div style="color: #fbbf24; font-size: 0.875rem;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">"The service was incredible! The professional arrived on time and fixed my AC in no time. Highly recommended!"</p>
+                </div>
+
+                <!-- Review 2 -->
+                <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-md);">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div style="width: 50px; height: 50px; background: #fdf2f8; color: #db2777; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.25rem;">
+                            D
+                        </div>
+                        <div>
+                            <h4 style="font-weight: 600;">David K.</h4>
+                            <div style="color: #fbbf24; font-size: 0.875rem;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">"Super easy to book. The cleaner did a fantastic job with my apartment. Will definitely use SpeedyServe again."</p>
+                </div>
+
+                <!-- Review 3 -->
+                <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-md);">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div style="width: 50px; height: 50px; background: #ecfdf5; color: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.25rem;">
+                            S
+                        </div>
+                        <div>
+                            <h4 style="font-weight: 600;">Sarah L.</h4>
+                            <div style="color: #fbbf24; font-size: 0.875rem;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">"Fast, reliable, and affordable. I love that I can track the professional in real-time. Great app!"</p>
                 </div>
             </div>
         </section>
@@ -566,7 +655,7 @@ function renderBooking() {
                             <i class="fa-solid fa-bolt" style="font-size: 1.5rem;"></i>
                             <div>
                                 <h4 style="font-weight: 600;">Arriving ASAP</h4>
-                                <p style="font-size: 0.9rem;">Professional will arrive within 45-60 minutes.</p>
+                                <p style="font-size: 0.9rem;">Professional will arrive within 30 minutes.</p>
                             </div>
                         </div>
 
@@ -678,17 +767,48 @@ function renderProfile() {
         ${renderHeader()}
     <main class="container" style="padding: 2rem 1rem;">
         <div class="flex flex-col gap-6">
-            <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); display: flex; items-center; gap: 2rem; flex-wrap: wrap;">
-                <div style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; font-weight: 700;">
-                    ${state.user.name.charAt(0)}
+            <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); display: flex; items-center; gap: 2rem; flex-wrap: wrap; position: relative;">
+                <div style="position: absolute; top: 1rem; right: 1rem;">
+                    ${!state.isEditingProfile
+            ? `<button onclick="state.isEditingProfile = true; renderApp()" class="btn btn-secondary" style="font-size: 0.9rem;"><i class="fa-solid fa-pen-to-square mr-2"></i> Edit Profile</button>`
+            : ``
+        }
                 </div>
-                <div>
-                    <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">${state.user.name}</h1>
-                    <p style="color: var(--text-secondary); margin-bottom: 1rem;"><i class="fa-solid fa-envelope"></i> ${state.user.email}</p>
-                    <div class="flex gap-2">
-                        <span style="background: #ecfdf5; color: #059669; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 600;">Verified User</span>
-                        <span style="background: #eff6ff; color: var(--primary-color); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 600;">Member since 2024</span>
-                    </div>
+                
+                <div style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; font-weight: 700;">
+                    ${state.isEditingProfile
+            ? `<i class="fa-solid fa-camera" style="font-size: 2rem; opacity: 0.8; cursor: pointer;"></i>`
+            : state.user.name.charAt(0)
+        }
+                </div>
+                
+                <div style="flex: 1;">
+                    ${state.isEditingProfile
+            ? `
+                        <form onsubmit="saveProfile(event)" style="display: flex; flex-direction: column; gap: 1rem; max-width: 400px;">
+                            <div>
+                                <label style="display: block; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Full Name</label>
+                                <input type="text" name="name" value="${state.user.name}" class="input-field" required>
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Email Address</label>
+                                <input type="email" name="email" value="${state.user.email}" class="input-field" required>
+                            </div>
+                            <div class="flex gap-2 mt-2">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <button type="button" onclick="state.isEditingProfile = false; renderApp()" class="btn btn-secondary">Cancel</button>
+                            </div>
+                        </form>
+                        `
+            : `
+                        <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">${state.user.name}</h1>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;"><i class="fa-solid fa-envelope"></i> ${state.user.email}</p>
+                        <div class="flex gap-2">
+                            <span style="background: #ecfdf5; color: #059669; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 600;">Verified User</span>
+                            <span style="background: #eff6ff; color: var(--primary-color); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 600;">Member since 2024</span>
+                        </div>
+                        `
+        }
                 </div>
             </div>
 
@@ -696,37 +816,32 @@ function renderProfile() {
                 <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">Booking History</h2>
 
                 <div style="display: flex; flex-direction: column; gap: 1rem;">
-                    <!-- Mock History -->
-                    <div style="border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; fles-wrap: wrap; gap: 1rem;">
-                        <div class="flex gap-4 items-center">
-                            <div style="width: 50px; height: 50px; background: #f3f4f6; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                                <i class="fa-solid fa-broom text-primary"></i>
+                    ${(state.user.bookings && state.user.bookings.length > 0)
+            ? state.user.bookings.map(booking => `
+                            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                                <div class="flex gap-4 items-center">
+                                    <div style="width: 50px; height: 50px; background: #f3f4f6; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fa-solid fa-calendar-check" style="color: var(--primary-color);"></i>
+                                    </div>
+                                    <div>
+                                        <h4 style="font-weight: 600;">${booking.service.name}</h4>
+                                        <p style="font-size: 0.875rem; color: var(--text-secondary);">${booking.date}</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                    <span style="font-weight: 700;">₹${booking.total}</span>
+                                    <span style="color: ${booking.paymentStatus.includes('Pending') ? '#ea580c' : '#059669'}; font-weight: 600; font-size: 0.875rem;">
+                                        ${booking.paymentStatus}
+                                    </span>
+                                </div>
                             </div>
-                            <div>
-                                <h4 style="font-weight: 600;">Home Cleaning</h4>
-                                <p style="font-size: 0.875rem; color: var(--text-secondary);">Oct 24, 2024 • 10:00 AM</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-end">
-                            <span style="font-weight: 700;">₹3999</span>
-                            <span style="color: #059669; font-weight: 600; font-size: 0.875rem;">Completed</span>
-                        </div>
-                    </div>
-                    <div style="border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; fles-wrap: wrap; gap: 1rem;">
-                        <div class="flex gap-4 items-center">
-                            <div style="width: 50px; height: 50px; background: #f3f4f6; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                                <i class="fa-solid fa-bolt text-primary"></i>
-                            </div>
-                            <div>
-                                <h4 style="font-weight: 600;">Electrical Repair</h4>
-                                <p style="font-size: 0.875rem; color: var(--text-secondary);">Nov 12, 2024 • 2:00 PM</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-end">
-                            <span style="font-weight: 700;">₹999</span>
-                            <span style="color: #059669; font-weight: 600; font-size: 0.875rem;">Completed</span>
-                        </div>
-                    </div>
+                        `).join('')
+            : `<div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                               <i class="fa-regular fa-calendar-xmark" style="font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.5;"></i>
+                               <p>No bookings found.</p>
+                               <button onclick="navigate('services')" class="btn btn-secondary mt-2" style="font-size: 0.875rem;">Book a Service</button>
+                           </div>`
+        }
                 </div>
             </div>
         </div>
@@ -866,10 +981,32 @@ function handleRegister(e) {
         role
     };
 
-    users.push(newUser);
+    users.push(newUser);    // Auto login
     state.user = newUser;
     closeAuthModals();
     alert('Registration successful! Welcome to SpeedyServe.');
+}
+
+function saveProfile(e) {
+    e.preventDefault();
+    const newName = e.target.name.value;
+    const newEmail = e.target.email.value;
+
+    if (newName && newEmail) {
+        // Update local state user
+        state.user.name = newName;
+        state.user.email = newEmail;
+
+        // Update in mock database
+        const userIdx = users.findIndex(u => u.id === state.user.id);
+        if (userIdx !== -1) {
+            users[userIdx] = { ...users[userIdx], name: newName, email: newEmail };
+        }
+
+        state.isEditingProfile = false;
+        alert("Profile updated successfully!");
+        renderApp();
+    }
 }
 
 function logout() {
@@ -939,8 +1076,16 @@ function handleBooking(e) {
 
         state.currentBooking = bookingDetails;
 
-        // Add to history (simulated)
-        // In a real app, this would be an API call to save the booking
+        // Add to history
+        if (!state.user.bookings) state.user.bookings = [];
+        state.user.bookings.unshift(bookingDetails);
+
+        // Update in mock database
+        const userIndex = users.findIndex(u => u.id === state.user.id);
+        if (userIndex !== -1) {
+            if (!users[userIndex].bookings) users[userIndex].bookings = [];
+            users[userIndex].bookings.unshift(bookingDetails);
+        }
 
         alert('Booking Successful!');
         navigate('confirmation');

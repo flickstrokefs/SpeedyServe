@@ -107,6 +107,10 @@ img {
     gap: 1rem;
 }
 
+.gap-8 {
+    gap: 2rem;
+}
+
 .text-center {
     text-align: center;
 }
@@ -117,6 +121,10 @@ img {
 
 .mt-4 {
     margin-top: 1rem;
+}
+
+.mt-8 {
+    margin-top: 2rem;
 }
 
 .mb-4 {

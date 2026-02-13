@@ -3,7 +3,7 @@ const services = [
         id: 1,
         name: "Home Cleaning",
         category: "Cleaning",
-        price: 3999,
+        price: 2499,
         image: "https://images.pexels.com/photos/4108715/pexels-photo-4108715.jpeg?auto=compress&cs=tinysrgb&w=800",
         description: "Professional cleaning service for your entire home. Includes dusting, vacuuming, and mopping."
     },
@@ -11,7 +11,7 @@ const services = [
         id: 2,
         name: "Deep Kitchen Clean",
         category: "Cleaning",
-        price: 6999,
+        price: 1699,
         image: "https://images.pexels.com/photos/2251247/pexels-photo-2251247.jpeg?auto=compress&cs=tinysrgb&w=800",
         description: "Intensive cleaning for your kitchen, including appliances, cabinets, and floors."
     },
@@ -19,7 +19,7 @@ const services = [
         id: 3,
         name: "Plumbing Repair",
         category: "Plumbing",
-        price: 1499,
+        price: 899,
         image: "https://images.pexels.com/photos/8486972/pexels-photo-8486972.jpeg?auto=compress&cs=tinysrgb&w=800",
         description: "Expert plumbing repair for leaks, clogs, and pipe issues."
     },
@@ -27,7 +27,7 @@ const services = [
         id: 4,
         name: "Electrical Maintenance",
         category: "Electrician",
-        price: 999,
+        price: 499,
         image: "https://images.pexels.com/photos/4508655/pexels-photo-4508655.jpeg?auto=compress&cs=tinysrgb&w=800",
         description: "Certified electricians for wiring, fixture installation, and troubleshooting."
     },
