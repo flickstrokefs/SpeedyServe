@@ -1,5 +1,8 @@
 {
+  "name": "speedyserve",
+  "version": "1.0.0",
   "dependencies": {
-    "@netlify/blobs": "^10.6.0"
+    "@netlify/blobs": "^10.6.0",
+    "@emailjs/nodejs": "^4.0.0"
   }
 }
