@@ -1,6 +1,4 @@
-const { getStore } = require("@netlify/blobs");
-
-const store = getStore("otpStore");
+const otpStore = require("./otpStore");
 
 exports.handler = async (event) => {
   try {
@@ -13,20 +11,17 @@ exports.handler = async (event) => {
       };
     }
 
-    const record = await store.get(email);
+    const record = otpStore[email];
 
     if (!record) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: "OTP not found or expired" })
+        body: JSON.stringify({ error: "OTP not found" })
       };
     }
 
-    // record structure example:
-    // { otp: "1234", expires: 123456789 }
-
     if (Date.now() > record.expires) {
-      await store.delete(email);
+      delete otpStore[email];
       return {
         statusCode: 400,
         body: JSON.stringify({ error: "OTP expired" })
@@ -40,8 +35,8 @@ exports.handler = async (event) => {
       };
     }
 
-    // OTP valid → delete it (one-time use)
-    await store.delete(email);
+    // OTP valid → delete it
+    delete otpStore[email];
 
     const user = {
       id: Date.now(),
@@ -54,9 +49,8 @@ exports.handler = async (event) => {
       body: JSON.stringify({ user })
     };
 
-  } catch (error) {
-    console.error("Verify OTP error:", error);
-
+  } catch (err) {
+    console.error(err);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: "Server error" })
