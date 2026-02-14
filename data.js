@@ -28,7 +28,7 @@ const services = [
         name: "Electrical Maintenance",
         category: "Electrician",
         price: 499,
-        image: "https://images.pexels.com/photos/4508655/pexels-photo-4508655.jpeg?auto=compress&cs=tinysrgb&w=800",
+        image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimgcdn.stablediffusionweb.com%2F2024%2F12%2F11%2F48f9237b-0fef-4ef0-9b47-0bffdb13ae51.jpg&f=1&nofb=1&ipt=ce97ca84e3aca6d55fe21f5de2b06f5c2834c3a8b55b7a61acde0d0e8142d8a5",
         description: "Certified electricians for wiring, fixture installation, and troubleshooting."
     },
     {
@@ -60,7 +60,7 @@ const services = [
         name: "Furniture Repair",
         category: "Carpenter",
         price: 899,
-        image: "https://images.pexels.com/photos/8308910/pexels-photo-8308910.jpeg?auto=compress&cs=tinysrgb&w=800",
+        image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F002%2F317%2F759%2Fnon_2x%2Fprofessional-carpenter-man-working-with-woodwork-industry-tool-craftsman-person-workshop-with-timber-and-equipment-woodwork-construction-free-photo.jpg&f=1&nofb=1&ipt=666427c469189d9eef1c08f22946ddfd4078798f9e6d9d548fd6210356937b6c",
         description: "Expert carpentry service for furniture repair, assembly, and custom work."
     }
 ];
