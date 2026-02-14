@@ -890,74 +890,62 @@ function openRegister() {
     renderApp();
 }
 
-function handleLogin(e) {
-    e.preventDefault();
+async function handleLogin(e) {
+  e.preventDefault();
 
-    const identifier = e.target.identifier.value.trim();
+  const email = e.target.identifier.value.trim();
 
-    // Check if email
-    if (!identifier.includes("@")) {
-        alert("Only Email OTP supported right now. Please enter an email.");
-        return;
-    }
+  const response = await fetch("/.netlify/functions/sendOTP", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email })
+  });
 
-    // Generate OTP
-    const otpCode = Math.floor(1000 + Math.random() * 9000);
+  const result = await response.json();
 
-    // Save OTP + Identifier
-    state.generatedOTP = otpCode;
-    state.tempLoginData = identifier;
-    state.loginStep = "otp";
+  if (!response.ok) {
+    alert(result.error);
+    return;
+  }
 
-    // Send OTP Email
-    sendOTPEmail(identifier, otpCode)
-        .then(() => {
-            alert("OTP sent successfully to your email!");
-            renderApp();
-        })
-        .catch((err) => {
-            console.error("Email Error:", err);
-            alert("Failed to send OTP email. Check EmailJS setup.");
-        });
+  state.tempLoginData = email;
+  state.loginStep = "otp";
+  renderApp();
+
+  alert("OTP sent to your email!");
 }
 
-function handleVerifyOTP(e) {
+
+async function handleVerifyOTP(e) {
     e.preventDefault();
 
     const otp = e.target.otp.value.trim();
 
-    // Validate OTP
-    if (parseInt(otp) !== state.generatedOTP) {
-        alert("Wrong OTP! Please try again.");
+    const response = await fetch("/.netlify/functions/verifyOTP", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            email: state.tempLoginData,
+            otp: otp
+        })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+        alert(result.error || "Invalid OTP");
         return;
     }
 
-    // OTP Verified ✅
-    const identifier = state.tempLoginData;
+    state.user = result.user;
 
-    let user = users.find(u => u.email === identifier);
-
-    // Create new user if not exists
-    if (!user) {
-        user = {
-            id: users.length + 1,
-            name: identifier.split("@")[0],
-            email: identifier,
-            role: "user"
-        };
-        users.push(user);
-    }
-
-    state.user = user;
-
-    // Reset OTP state
-    state.generatedOTP = null;
     state.tempLoginData = null;
 
     closeAuthModals();
 
-    alert(`Welcome, ${user.name}!`);
+    alert(`Welcome, ${state.user.name}!`);
 }
+
 
 function handleRegister(e) {
     e.preventDefault();
